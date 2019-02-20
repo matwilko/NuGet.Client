@@ -226,6 +226,11 @@
   <data name="ShowError_CannotHaveChildren" xml:space="preserve">
     <value>Error parsing NuGet.Config. Element '{0}' cannot have descendant elements. Path: '{1}'.</value>
   </data>
+  <data name="ShowError_ConfigHasInvalidPackageSource" xml:space="preserve">
+    <value>NuGet.Config has an invalid package source value '{0}'.  Reason:  {1}</value>
+    <comment>0 - package source value
+1 - original exception message</comment>
+  </data>
   <data name="ShowError_ConfigInvalidOperation" xml:space="preserve">
     <value>NuGet.Config is malformed. Path: '{0}'.</value>
   </data>

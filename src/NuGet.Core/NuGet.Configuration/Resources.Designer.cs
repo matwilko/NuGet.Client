@@ -10,7 +10,6 @@
 
 namespace NuGet.Configuration {
     using System;
-    using System.Reflection;
     
     
     /// <summary>
@@ -40,7 +39,7 @@ namespace NuGet.Configuration {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NuGet.Configuration.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NuGet.Configuration.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -337,6 +336,15 @@ namespace NuGet.Configuration {
         internal static string ShowError_CannotHaveChildren {
             get {
                 return ResourceManager.GetString("ShowError_CannotHaveChildren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NuGet.Config has an invalid package source value &apos;{0}&apos;.  Reason:  {1}.
+        /// </summary>
+        internal static string ShowError_ConfigHasInvalidPackageSource {
+            get {
+                return ResourceManager.GetString("ShowError_ConfigHasInvalidPackageSource", resourceCulture);
             }
         }
         

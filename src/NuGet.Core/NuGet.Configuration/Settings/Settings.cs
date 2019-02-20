@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -42,7 +41,7 @@ namespace NuGet.Configuration
             new[] { "*.config" } :
             new[] { "*.Config", "*.config" };
 
-        private SettingsFile _settingsHead { get; }
+        private readonly SettingsFile _settingsHead;
 
         private Dictionary<string, VirtualSettingSection> _computedSections { get; set; }
 
@@ -621,14 +620,28 @@ namespace NuGet.Configuration
 
         private static string ResolvePath(string configDirectory, string value)
         {
-            // Three cases for when Path.IsRooted(value) is true:
+            // Three cases for when Path.IsPathRooted(value) is true:
             // 1- C:\folder\file
             // 2- \\share\folder\file
             // 3- \folder\file
             // In the first two cases, we want to honor the fully qualified path
             // In the last case, we want to return X:\folder\file with X: drive where config file is located.
-            // However, Path.Combine(path1, path2) always returns path2 when Path.IsRooted(path2) == true (which is current case)
-            var root = Path.GetPathRoot(value);
+            // However, Path.Combine(path1, path2) always returns path2 when Path.IsPathRooted(path2) == true (which is current case)
+            string root;
+
+            try
+            {
+                root = Path.GetPathRoot(value);
+            }
+            catch (ArgumentException ex)
+            {
+                throw new NuGetConfigurationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        Resources.ShowError_ConfigHasInvalidPackageSource, value, ex.Message),
+                    ex);
+            }
+
             // this corresponds to 3rd case
             if (root != null
                 && root.Length == 1
